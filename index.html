@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="icons8-layer-16.png" type="image/png">
+
+    <title>Confidential Layer</title>
+    <style>
+        /* Basic reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            height: 100vh;
+            background-color: #0a0a0a;
+        }
+
+        /* Logo positioning */
+        .logo {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 165px;
+            height: auto;
+            z-index: 2;
+        }
+
+        /* Centered GIF styling */
+        .center-gif {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 680px;
+            height: auto;
+            z-index: 1;
+        }
+
+        /* Overlay container for text and button */
+        .overlay {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+            color: #cfcfff;
+        }
+
+        /* Main title and subtitle styling */
+        .title {
+            font-size: 2em;
+            font-weight: 500;
+            color: #dfdfff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .highlight {
+            color: #af9eff;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: #c4c4c4;
+            max-width: 100%;
+            margin: 10px auto 30px;
+            line-height: 1.5em;
+        }
+
+        /* Call-to-action button */
+        .cta-button {
+            padding: 17px 15px;
+            font-size: 15px;
+            font-weight: bolder;
+            letter-spacing: 0.7px;
+            color: #111130;
+            background-color: #edddff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #e3c5ff;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            /* Adjust spaceship size and position */
+            .center-gif {
+                width: 300px;
+                top: 40%;
+            }
+
+            /* Adjust logo size */
+            .logo {
+                width: 120px;
+                top: 5%;
+            }
+
+            /* Adjust title font size */
+            .title {
+                font-size: 1.5em;
+            }
+
+            /* Adjust subtitle font size and spacing */
+            .subtitle {
+                font-size: 12px;
+                max-width: 100%;
+                margin: 10px auto 20px;
+            }
+
+            /* Adjust button size */
+            .cta-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            /* Adjust overlay position */
+            .overlay {
+                bottom: 8%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Even smaller adjustments for very small screens */
+            .center-gif {
+                width: 300px;
+                top: 35%;
+            }
+
+            .logo {
+                width: 120px;
+                top: 5%;
+            }
+
+            .title {
+                font-size: 1.3em;
+            }
+
+            .subtitle {
+                font-size: 11px;
+            }
+
+            .cta-button {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            .overlay {
+                bottom: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Logo -->
+<img src="logo.png" alt="Logo" class="logo">
+
+<!-- Centered Spaceship GIF -->
+<img src="spaceship.gif" alt="Spaceship" class="center-gif">
+
+<!-- Overlay Content with Title, Subtitle, and Button -->
+<div class="overlay">
+    <!-- Main Title and Subtitle -->
+    <div class="title">
+        Join the <span class="highlight">$CLONE</span> Airdrop spaceship
+    </div>
+    <div class="subtitle">
+        Explore all portals, complete tasks, earn Space Miles, collect<br> Guardians of Privacy, and grab your share of the $CLONE airdrop!
+    </div>
+
+    <!-- Call-to-Action Button -->
+    <button class="cta-button">BOARD THE SPACESHIP!</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    // Basic setup for a Three.js scene
+    const scene = new THREE.Scene();
+
+    // Set up camera with initial position and adjustable rotation
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 1;
+
+    // Set the initial rotation angle (in radians)
+    const initialAngleX = Math.PI / 0.20; // Example starting angle in the X direction
+    const initialAngleY = Math.PI / 4; // Example starting angle in the Y direction
+    camera.rotation.set(initialAngleX, initialAngleY, 0); // Set initial angle for the camera rotation
+
+    // Set up renderer
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Load the six images as a cube texture for the skybox
+    const loader = new THREE.CubeTextureLoader();
+    const skyboxTexture = loader.load([
+        'right.webp',   // +X
+        'left.webp',    // -X
+        'top.webp',     // +Y
+        'bottom.webp',  // -Y
+        'front.webp',   // +Z
+        'back.webp'     // -Z
+    ]);
+
+    // Set the background of the scene to the skybox texture
+    scene.background = skyboxTexture;
+
+    // Variables for rotation speed
+    let rotationSpeedX = 0.000001; // Rotation speed around the X axis
+    let rotationSpeedY = 0.0001;   // Rotation speed around the Y axis
+
+    // Create an animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Rotate the camera around the X and Y axes
+        camera.rotation.x += rotationSpeedX;
+        camera.rotation.y += rotationSpeedY;
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle window resizing
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
+</script>
+
+</body>
+</html>
